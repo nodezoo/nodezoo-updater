@@ -29,7 +29,11 @@ module.exports = function( options ){
 
 
   function cmd_update( args, done ) {
+    var seneca = this
     console.log(args.data)
+
+    seneca.act('role:npm,cmd:get,update:true',{name:args.data.name})
+
     done()
   }
 
