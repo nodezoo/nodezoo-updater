@@ -1,18 +1,17 @@
 {
   "name": "nodezoo-npm-update",
-  "version": "0.0.0",
+  "version": "4.0.0",
   "description": "nodezoo.com microservice handling npm updates.",
-  "main":"npm-update.js",
-  "scripts": {
-    "test": "mocha test/*.test.js"
-  },
+  "main": "npm-update.js",
   "author": "Richard Rodger (http://richardrodger.com)",
   "license": "MIT",
   "dependencies": {
     "async": "^1.4.2",
     "follow": "^0.12.1",
     "npm-stats": "^1.1.0",
-    "seneca": "^0.6.5",
-    "seneca-level-store": "^0.2.2"
+    "seneca": "https://github.com/rjrodger/seneca",
+    "seneca-beanstalk-transport": "^0.2.1",
+    "seneca-level-store": "^0.2.3",
+    "seneca-msgstats": "^0.2.0"
   }
 }
