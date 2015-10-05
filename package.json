@@ -9,7 +9,7 @@
     "async": "^1.4.2",
     "follow": "^0.12.1",
     "npm-stats": "^1.1.0",
-    "seneca": "https://github.com/rjrodger/seneca",
+    "seneca": "^0.7.1",
     "seneca-beanstalk-transport": "^0.2.1",
     "seneca-level-store": "^0.2.3",
     "seneca-msgstats": "^0.2.0"
