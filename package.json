@@ -1,6 +1,6 @@
 {
   "name": "nodezoo-npm-update",
-  "version": "4.0.0",
+  "version": "5.0.0",
   "description": "nodezoo.com microservice handling npm updates.",
   "main": "npm-update.js",
   "author": "Richard Rodger (http://richardrodger.com)",
@@ -9,7 +9,7 @@
     "async": "^1.4.2",
     "follow": "^0.12.1",
     "npm-stats": "^1.1.0",
-    "seneca": "^0.7.1",
+    "seneca": "^0.9.1",
     "seneca-beanstalk-transport": "^0.2.1",
     "seneca-level-store": "^0.2.3",
     "seneca-msgstats": "^0.2.0"
