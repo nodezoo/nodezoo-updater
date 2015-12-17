@@ -11,5 +11,3 @@ require('seneca')()
 
   .use( 'mesh', {auto:true} )
 
-  .repl(33005)
-
