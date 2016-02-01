@@ -22,6 +22,13 @@ This micro-service listens for the following messages:
   * _role:npm,task:process_modules_
   * _role:npm,task:download_modules_
 
+## Running with Curl
+
+Any of the messages above can be run using curl in the following format
+```
+curl -d '{"role":"npm","task":"registry_subscribe"}' http://localhost:44005/act
+```
+
 ## Contributing
 The [nodeZoo][] org encourages open participation. If you feel you can help in any way, be it with documentation, examples, extra testing, or new features please get in touch.
 
