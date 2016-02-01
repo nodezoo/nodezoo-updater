@@ -4,6 +4,9 @@
   "description": "nodezoo.com microservice handling npm updates.",
   "main": "npm-update.js",
   "author": "Richard Rodger (http://richardrodger.com)",
+  "contributors": [
+    "Isaac Mahon (github.com/CodeWriterWriter)"
+  ],
   "license": "MIT",
   "dependencies": {
     "async": "^1.4.2",

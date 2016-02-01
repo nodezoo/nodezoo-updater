@@ -1,4 +1,4 @@
-![Nodezoo](https://raw.githubusercontent.com/rjrodger/nodezoo-web/to-redux/client/assets/img/logo-nodezoo.png)
+a![Nodezoo](https://raw.githubusercontent.com/rjrodger/nodezoo-web/to-redux/client/assets/img/logo-nodezoo.png)
 
 # nodezoo-NPM-UPDATE
 Nodezoo.com micro-service handling npm data.. Please see the [main repo][] for more details.
@@ -13,6 +13,14 @@ Nodezoo.com micro-service handling npm data.. Please see the [main repo][] for m
 ```sh
 $ node npm-service.js --seneca.options.from=dev.options.js --seneca.log.all
 ```
+
+## Messages
+
+This micro-service recognizes the following messages:
+
+  * _role:npm,task:registry_subscribe_
+  * _role:npm,task:process_modules_
+  * _role:npm,task:download_modules_ 
 
 ## Contributing
 The [NodeZoo][] org encourages open participation. If you feel you can help in any way, be it with documentation, examples, extra testing, or new features please get in touch.
