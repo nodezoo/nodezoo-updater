@@ -20,7 +20,7 @@ npm start
 To tag your service and set up logs simply pass the relevant switches on start,
 
 ```
-npm start -- --seneca.options.tag=nodezoo-github --seneca.log.all
+npm start -- --seneca.options.tag=nodezoo-npm-update --seneca.log.all
 ```
 
 ## Inbound Messages
