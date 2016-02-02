@@ -1,6 +1,6 @@
 ![nodezoo](https://raw.githubusercontent.com/rjrodger/nodezoo-web/to-redux/client/assets/img/logo-nodezoo.png)
 
-## nodezoo-NPM-UPDATE
+## nodezoo-npm-update
 Nodezoo.com micro-service handling npm data.. Please see the [main repo][] for more details.
 
 - __Sponsor:__ [nearForm][]
@@ -9,19 +9,35 @@ Nodezoo.com micro-service handling npm data.. Please see the [main repo][] for m
 1. clone this repo into a root _/nodezoo_ folder.
 2. run `npm install`
 
+## Starting
+To start simply run,
+```
+npm start
+```
+
 ## Running
 
 ```sh
 $ node npm-service.js --seneca.options.from=dev.options.js --seneca.log.all
 ```
+### Tagging and Logs
+To tag your service and set up logs simply pass the relevant switches on start,
 
-## Messages
+```
+npm start -- --seneca.options.tag=nodezoo-github --seneca.log.all
+```
+
+## Inbound Messages
 
 This micro-service listens for the following messages:
 
   * _role:npm,task:registry_subscribe_
   * _role:npm,task:process_modules_
   * _role:npm,task:download_modules_
+
+## Outbound Messages
+
+This micro-service emits no outbound messages.
 
 ## Running with Curl
 
@@ -44,4 +60,4 @@ Licensed under [MIT][].
 [Code of Conduct]: https://github.com/nearform/vidi-contrib/docs/code_of_conduct.md
 [nearForm]: http://www.nearform.com/
 [nodeZoo]: http://www.nodezoo.com/
-[CoC]: ./CODE_OF_CONDUCT.md
+[CoC]: ./CoC.md
