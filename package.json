@@ -10,7 +10,7 @@
   "license": "MIT",
   "scripts":{
     "start": "node srv/update-dev.js ",
-    "start-dev": "node srv/update-dev.js "
+    "start:dev": "node srv/update-dev.js "
   },
   "dependencies": {
     "async": "^1.4.2",

@@ -1,7 +1,7 @@
 ![nodezoo](https://raw.githubusercontent.com/rjrodger/nodezoo-web/to-redux/client/assets/img/logo-nodezoo.png)
 
 ## nodezoo-npm-update
-Nodezoo.com micro-service handling npm data.. Please see the [main repo][] for more details.
+Nodezoo.com micro-service handling npm data. Please see the [main repo][] for more details.
 
 - __Sponsor:__ [nearForm][]
 - __Lead:__ [Richard Rodger][Lead]
@@ -47,7 +47,7 @@ The [NodeZoo][] org encourages __open__ and __safe__ participation. If you feel 
 - Before contributing please review our __[Code of Conduct][CoC]__
 
 ## License
-Copyright (c) 2015, Richard Rodgers and other contributors.
+Copyright (c) 2015, Richard Rodger and other contributors.
 Licensed under [MIT][].
 
 [main repo]: https://github.com/rjrodger/nodezoo
