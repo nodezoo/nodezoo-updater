@@ -24,7 +24,6 @@ npm start -- --seneca.options.tag=nodezoo-npm-update --seneca.log.all
 ```
 
 ## Inbound Messages
-
 This micro-service listens for the following messages:
 
   * _role:npm,task:registry_subscribe_
@@ -32,11 +31,9 @@ This micro-service listens for the following messages:
   * _role:npm,task:download_modules_
 
 ## Outbound Messages
-
 This micro-service emits no outbound messages.
 
 ## Running with Curl
-
 Any of the messages above can be run using curl in the following format in the command line
 ```
 curl -d '{"role":"npm","task":"registry_subscribe"}' http://localhost:44005/act
