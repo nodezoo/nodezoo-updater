@@ -37,10 +37,11 @@ This micro-service emits no outbound messages.
 
 ## Running with Curl
 
-Any of the messages above can be run using curl in the following format in the commanding
+Any of the messages above can be run using curl in the following format in the command line
 ```
 curl -d '{"role":"npm","task":"registry_subscribe"}' http://localhost:44005/act
 ```
+Note: Ports are assigned automatically, please check the logs for the correct port to use.
 
 ## Contributing
 The [NodeZoo][] org encourages __open__ and __safe__ participation. If you feel you can help in any way, be it with documentation, examples, extra testing, or new features please get in touch.
