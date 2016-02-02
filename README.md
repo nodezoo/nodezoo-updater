@@ -14,12 +14,6 @@ To start simply run,
 ```
 npm start
 ```
-
-## Running
-
-```sh
-$ node npm-service.js --seneca.options.from=dev.options.js --seneca.log.all
-```
 ### Tagging and Logs
 To tag your service and set up logs simply pass the relevant switches on start,
 
