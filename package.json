@@ -4,7 +4,14 @@
   "description": "nodezoo.com microservice handling npm updates.",
   "main": "npm-update.js",
   "author": "Richard Rodger (http://richardrodger.com)",
+  "contributors": [
+    "Isaac Mahon (github.com/CodeWriterWriter)"
+  ],
   "license": "MIT",
+  "scripts":{
+    "start": "node srv/update-dev.js ",
+    "start:dev": "node srv/update-dev.js "
+  },
   "dependencies": {
     "async": "^1.4.2",
     "follow": "^0.12.1",
