@@ -54,5 +54,5 @@ Licensed under [MIT][].
 [Code of Conduct]: https://github.com/nearform/vidi-contrib/docs/code_of_conduct.md
 [nearForm]: http://www.nearform.com/
 [nodeZoo]: http://www.nodezoo.com/
-[CoC]: ./CoC.md
+[CoC]: https://github.com/nodezoo/nodezoo-org/blob/master/CoC.md
 [Lead]: https://github.com/rjrodger
