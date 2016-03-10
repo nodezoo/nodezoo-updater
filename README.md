@@ -28,7 +28,7 @@ Licensed under [MIT][].
 
 [main repo]: https://github.com/nodezoo/nodezoo-org
 [MIT]: ./LICENSE
-[Code of Conduct]: https://github.com/nearform/vidi-contrib/docs/code_of_conduct.md
+[CoC]: https://github.com/nodezoo/nodezoo-org/blob/master/CoC.md
 [nearForm]: http://www.nearform.com/
 [NodeZoo org]: https://github.com/nodezoo
 [Logo]: https://github.com/nodezoo/nodezoo-org/blob/master/assets/logo-nodezoo.png
