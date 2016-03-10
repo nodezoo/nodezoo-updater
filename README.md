@@ -1,10 +1,11 @@
-![nodezoo](https://raw.githubusercontent.com/rjrodger/nodezoo-web/to-redux/client/assets/img/logo-nodezoo.png)
+![logo-nodezoo][Logo]
 
-## nodezoo-npm-update
-Nodezoo.com micro-service handling npm data. Please see the [main repo][] for more details.
+# nodezoo-npm-update
 
 - __Sponsor:__ [nearForm][]
 - __Lead:__ [Richard Rodger][Lead]
+
+Nodezoo.com micro-service handling npm data.. Please see the [main repo][] for more details.
 
 ## Install
 1. Clone this repo into a root _/nodezoo_ folder.
@@ -41,18 +42,24 @@ curl -d '{"role":"npm","task":"registry_subscribe"}' http://localhost:44005/act
 _Note_: Ports are assigned automatically, please check the logs for the correct port to use.
 
 ## Contributing
-The [NodeZoo][] org encourages __open__ and __safe__ participation. If you feel you can help in any way, be it with documentation, examples, extra testing, or new features please get in touch.
+The [NodeZoo org][] encourages __open__ and __safe__ participation.
+​
+- __[Code of Conduct][CoC]__
+​
+If you feel you can help in any way, be it with documentation, examples, extra testing, or new
+features please get in touch.
+​
 
-- Before contributing please review our __[Code of Conduct][CoC]__
 
 ## License
-Copyright (c) 2015, Richard Rodger and other contributors.
+Copyright (c) 2015-2016, Richard Rodgers and other contributors.
 Licensed under [MIT][].
 
-[main repo]: https://github.com/rjrodger/nodezoo
+[main repo]: https://github.com/nodezoo/nodezoo-org
 [MIT]: ./LICENSE
-[Code of Conduct]: https://github.com/nearform/vidi-contrib/docs/code_of_conduct.md
+[CoC]: https://github.com/nodezoo/nodezoo-org/blob/master/CoC.md
 [nearForm]: http://www.nearform.com/
-[nodeZoo]: http://www.nodezoo.com/
 [CoC]: https://github.com/nodezoo/nodezoo-org/blob/master/CoC.md
 [Lead]: https://github.com/rjrodger
+[NodeZoo org]: https://github.com/nodezoo
+[Logo]: https://github.com/nodezoo/nodezoo-org/blob/master/assets/logo-nodezoo.png
