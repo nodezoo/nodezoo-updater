@@ -5,7 +5,7 @@
 - __Sponsor:__ [nearForm][]
 - __Lead:__ [Richard Rodger][Lead]
 
-Nodezoo.com micro-service handling npm data.. Please see the [main repo][] for more details.
+Nodezoo.com micro-service handling npm data. Please see the [main repo][] for more details.
 
 ## Install
 1. Clone this repo into a root _/nodezoo_ folder.
