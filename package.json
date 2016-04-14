@@ -23,7 +23,6 @@
     "seneca": "2.0.1",
     "seneca-entity": "0.0.1",
     "seneca-msgstats": "^0.2.0",
-    "seneca-redis-queue-transport": "0.3.0",
-    "seneca-redis-store": "0.0.8"
+    "seneca-redis-queue-transport": "0.3.0"
   }
 }
