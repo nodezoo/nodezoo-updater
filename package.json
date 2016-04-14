@@ -17,9 +17,10 @@
     "start:dev": "node srv/update-dev.js "
   },
   "dependencies": {
+    "JSONStream": "^1.1.1",
     "async": "^1.4.2",
     "follow": "^0.12.1",
-    "npm-stats": "^1.1.0",
+    "npm-stats": "1.2.0",
     "seneca": "2.0.1",
     "seneca-entity": "0.0.1",
     "seneca-msgstats": "^0.2.0",

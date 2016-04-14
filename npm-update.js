@@ -3,9 +3,10 @@
 "use strict"
 
 
-var follow    = require('follow');
-var npm_stats = require('npm-stats')
-var async     = require('async')
+var follow     = require('follow')
+var Registry   = require('npm-stats')()
+var async      = require('async')
+var JSONStream = require('JSONStream')
 
 
 module.exports = function npmUpdate( options ){
@@ -34,8 +35,21 @@ module.exports = function npmUpdate( options ){
     seneca.act('role:npm,info:change', {name: pkg.id})
   })
 
-  seneca.add('role:npm,cmd:startUpdater',  startFeed)
-  seneca.add('role:npm,cmd:stopUpdater',  stopFeed)
+  seneca.add('role:npm,cmd:registrySubscribe',  startFeed)
+  seneca.add('role:npm,cmd:registryUnsubscribe',  stopFeed)
+  seneca.add('role:npm,cmd:registryDownload',  downloadRegistry)
+
+  function downloadRegistry (msg, respond) {
+    var npmList = Registry.list()
+    npmList.pipe(JSONStream.parse('*')).on('data', (pkgId) => {
+      console.log(pkgId)
+      seneca.act('role:npm,info:change', {name: pkgId})
+    })
+    console.log('npm list')
+    respond(null, {
+      message: 'downloading'
+    })
+  }
 
   function startFeed (msg, respond) {
     var seneca = this
