@@ -28,21 +28,14 @@ module.exports = function npmUpdate( options ){
     console.log('feed error', err)
     feed.stop()
   })
+
   feed.on('change', (pkg) => {
     console.log(pkg, 'package changed')
     seneca.act('role:npm,info:change', {name: pkg.id})
-
   })
 
-  seneca.add('role:npm,info:change',  onNpmChange)
   seneca.add('role:npm,cmd:startUpdater',  startFeed)
   seneca.add('role:npm,cmd:stopUpdater',  stopFeed)
-
-  function onNpmChange (msg, respond) {
-    var seneca = this
-    console.log('on change message', msg)
-    respond(null, {message:'package changed'})
-  }
 
   function startFeed (msg, respond) {
     var seneca = this

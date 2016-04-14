@@ -1,6 +1,5 @@
 var Seneca = require('seneca')
 var Entities = require('seneca-entity')
-var RedisStore = require('seneca-redis-store')
 var RedisQ = require('seneca-redis-queue-transport')
 var MsgStats = require('seneca-msgstats')
 
@@ -12,26 +11,36 @@ var opts = {
     port: 6379
   },
   redisQ: {
+    'redis-queue': {
       timeout: 22222,
       type: 'redis-queue',
       host: 'localhost',
       port: 6379
-    },
-    msgStats: {
-      udp: { host:STATS },
-      pin: 'role:npm, info:change'
     }
+  },
+  msgStats: {
+    udp: { host:STATS },
+    pin: 'role:npm, info:change'
+  }
 }
 
 var Service = Seneca(opts.seneca)
+var Consumer = Seneca(opts.seneca)
 
 Service.use(Entities)
-       .use(RedisStore, opts.redisStore)
        .use(RedisQ, opts.redisQ)
-       .use(MsgStats, opts.msgStats)
-       .use('../npm-update-new.js')
+      //  .use(MsgStats, opts.msgStats)
+       .use('../npm-update.js')
        .listen(44005)
        .repl(43005)
+       .client({pin:'role:npm,info:change',type:'redis-queue'})
+
+Consumer.use(Entities)
+      .use(RedisQ, opts.redisQ)
+      .use('../consumer.js')
+      // .listen(44006)
+      // .repl(43006)
+      .listen({pin:'role:npm,info:change',type:'redis-queue'})
 
 // require('seneca')()
 //   .use('redis-store', opts['redis-store'])
@@ -43,7 +52,8 @@ Service.use(Entities)
 //
 //   .use('../npm-update-new.js')
 
-  // .client({ host:BEANSTALK, pin:'role:npm,info:change',type:'beanstalk' })
+  // .client({pin:'role:npm,info:change',type:'redis-queue'})
+  // .listen({pin:'role:npm,info:change',type:'redis-queue'})
   //
   // .listen(44005)
   // .repl(43005)
