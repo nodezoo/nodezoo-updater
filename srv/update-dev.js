@@ -21,39 +21,27 @@ var opts = {
   msgStats: {
     udp: { host:STATS },
     pin: 'role:npm, info:change'
+  },
+  mesh: {
+    auto: true
   }
 }
 
 var Service = Seneca(opts.seneca)
 var Consumer = Seneca(opts.seneca)
 
+// Send to Q
 Service.use(Entities)
        .use(RedisQ, opts.redisQ)
-      //  .use(MsgStats, opts.msgStats)
+       .use(MsgStats, opts.msgStats)
        .use('../npm-update.js')
        .listen(44005)
        .repl(43005)
        .client({pin:'role:npm,info:change',type:'redis-queue'})
 
+//Handle Packages Coming Off Q --- Needs to move elsewhere (nodezoo-info?)
 Consumer.use(Entities)
       .use(RedisQ, opts.redisQ)
       .use('../consumer.js')
-      // .listen(44006)
-      // .repl(43006)
+      .use('mesh', opts.mesh)
       .listen({pin:'role:npm,info:change',type:'redis-queue'})
-
-// require('seneca')()
-//   .use('redis-store', opts['redis-store'])
-//   .use('redis-queue-transport', opts['redis-queue'])
-//   .use('msgstats',{
-//     udp: { host: STATS },
-//     pin:'role:npm,info:change'
-//   })
-//
-//   .use('../npm-update-new.js')
-
-  // .client({pin:'role:npm,info:change',type:'redis-queue'})
-  // .listen({pin:'role:npm,info:change',type:'redis-queue'})
-  //
-  // .listen(44005)
-  // .repl(43005)

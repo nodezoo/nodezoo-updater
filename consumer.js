@@ -5,10 +5,10 @@ module.exports = function consumer( options ){
 
   seneca.add('role:npm,info:change',  onNpmChange)
 
-  function onNpmChange (msg, respond) {
+  function onNpmChange (pkg, respond) {
     var seneca = this
-    console.log('on change message', msg)
-    seneca.act('role:info, res:part', {name: package.id})
-    respond(null, {message:'package changed'})
+    seneca.act({role:'info', res:'part', name: pkg.name}, (err) => {
+      respond(err, {message:`${pkg.name} package was updated `})
+    })
   }
 }

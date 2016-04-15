@@ -4,7 +4,7 @@
 
 
 var follow     = require('follow')
-var Registry   = require('npm-stats')()
+var NpmStats   = require('npm-stats')
 var async      = require('async')
 var JSONStream = require('JSONStream')
 
@@ -13,25 +13,25 @@ module.exports = function npmUpdate( options ){
   var seneca = this
 
   var opts = Object.assign({
-    task: null,
-    batchsize: 33,
     registry: 'https://skimdb.npmjs.com/registry'
   }, options)
 
+  //prevent multiple feed activations
   var feedRunning = false
+
   var feed = new follow.Feed({
     db: opts.registry,
     since: 'now'
   })
+
   feed.on('start', onFeedStart)
   feed.on('stop', onFeedStop)
   feed.on('error', (err) => {
     console.log('feed error', err)
-    feed.stop()
+    feed.stop() // try to restart???
   })
 
   feed.on('change', (pkg) => {
-    console.log(pkg, 'package changed')
     seneca.act('role:npm,info:change', {name: pkg.id})
   })
 
@@ -40,12 +40,13 @@ module.exports = function npmUpdate( options ){
   seneca.add('role:npm,cmd:registryDownload',  downloadRegistry)
 
   function downloadRegistry (msg, respond) {
-    var npmList = Registry.list()
-    npmList.pipe(JSONStream.parse('*')).on('data', (pkgId) => {
-      console.log(pkgId)
-      seneca.act('role:npm,info:change', {name: pkgId})
-    })
-    console.log('npm list')
+    var RegistryStream = NpmStats().list()
+
+    RegistryStream
+      .pipe(JSONStream.parse('*'))
+      .on('data', (pkgId) => {
+        seneca.act('role:npm,info:change', {name: pkgId})
+      })
     respond(null, {
       message: 'downloading'
     })
