@@ -1,25 +1,19 @@
-/* Copyright (c) 2014-2015 Richard Rodger, MIT License */
-/* jshint node:true, asi:true, eqnull:true */
-"use strict"
+'use strict'
 
-
-var follow     = require('follow')
-var NpmStats   = require('npm-stats')
-var async      = require('async')
+var Follow = require('Follow')
+var NpmStats = require('npm-stats')
 var JSONStream = require('JSONStream')
 
-
-module.exports = function npmUpdate( options ){
+module.exports = function (options) {
   var seneca = this
 
-  var opts = Object.assign({
+  var opts = seneca.util.deepextend({
     registry: 'https://skimdb.npmjs.com/registry'
   }, options)
 
-  //prevent multiple feed activations
   var feedRunning = false
 
-  var feed = new follow.Feed({
+  var feed = new Follow.Feed({
     db: opts.registry,
     since: 'now'
   })
@@ -27,17 +21,17 @@ module.exports = function npmUpdate( options ){
   feed.on('start', onFeedStart)
   feed.on('stop', onFeedStop)
   feed.on('error', (err) => {
-    console.log('feed error', err)
-    feed.stop() // try to restart???
+    seneca.log.error(err)
+    feed.stop()
   })
 
   feed.on('change', (pkg) => {
-    seneca.act('role:npm,info:change', {name: pkg.id})
+    seneca.act('role:updater,info:update', {name: pkg.id})
   })
 
-  seneca.add('role:npm,cmd:registrySubscribe',  startFeed)
-  seneca.add('role:npm,cmd:registryUnsubscribe',  stopFeed)
-  seneca.add('role:npm,cmd:registryDownload',  downloadRegistry)
+  seneca.add('role:npm,cmd:registrySubscribe', startFeed)
+  seneca.add('role:npm,cmd:registryUnsubscribe', stopFeed)
+  seneca.add('role:npm,cmd:registryDownload', downloadRegistry)
 
   function downloadRegistry (msg, respond) {
     var RegistryStream = NpmStats().list()
@@ -45,7 +39,7 @@ module.exports = function npmUpdate( options ){
     RegistryStream
       .pipe(JSONStream.parse('*'))
       .on('data', (pkgId) => {
-        seneca.act('role:npm,info:change', {name: pkgId})
+        seneca.act('role:updater,info:update', {name: pkgId})
       })
     respond(null, {
       message: 'downloading'
@@ -53,11 +47,7 @@ module.exports = function npmUpdate( options ){
   }
 
   function startFeed (msg, respond) {
-    var seneca = this
-
-    if (feedRunning) return respond(null, {
-      message: 'already running'
-    })
+    if (feedRunning) return respond(null, {message: 'already running'})
 
     feed.start()
     respond(null, {
@@ -66,11 +56,7 @@ module.exports = function npmUpdate( options ){
   }
 
   function stopFeed (msg, respond) {
-    var seneca = this
-
-    if (!feedRunning) return respond(null, {
-      message: 'already stopped'
-    })
+    if (!feedRunning) return respond(null, {message: 'already stopped'})
 
     feed.stop()
     respond(null, {
