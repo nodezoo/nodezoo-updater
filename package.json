@@ -20,13 +20,13 @@
     "registryDownload": "curl -d '{\"role\":\"npm\", \"cmd\":\"registryDownload\"}' localhost:44005/act"
   },
   "dependencies": {
-    "JSONStream": "^1.1.1",
-    "follow": "^0.12.1",
+    "JSONStream": "1.1.1",
+    "follow": "0.12.1",
     "npm-stats": "1.2.0",
     "seneca": "2.0.1",
-    "seneca-balance-client": "^0.4.0",
+    "seneca-balance-client": "0.4.0",
     "seneca-entity": "0.0.1",
-    "seneca-mesh": "^0.7.0",
+    "seneca-mesh": "0.7.0",
     "seneca-redis-queue-transport": "0.3.0"
   }
 }
