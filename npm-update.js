@@ -1,189 +1,79 @@
-/* Copyright (c) 2014-2015 Richard Rodger, MIT License */
-/* jshint node:true, asi:true, eqnull:true */
-"use strict";
+'use strict'
 
+var Follow = require('Follow')
+var NpmStats = require('npm-stats')
+var JSONStream = require('JSONStream')
 
-var follow = require('follow');
-var npm_stats = require('npm-stats')
-var async     = require('async')
-
-
-module.exports = function npm_update( options ){
+module.exports = function (options) {
   var seneca = this
 
-  options = seneca.util.deepextend({
-    task: null,
-    batchsize: 33,
+  var opts = seneca.util.deepextend({
     registry: 'https://skimdb.npmjs.com/registry'
-  },options)
+  }, options)
 
+  var feedRunning = false
 
-  seneca.add( 'role:npm,task:registry_subscribe', registry_subscribe )
-  seneca.add( 'role:npm,task:process_modules',    process_modules )
-  seneca.add( 'role:npm,task:download_modules',   download_modules )
-
-
-  var state = {
-    registry_subscribe: { status:'stop' },
-    process_modules: { status:'stop' },
-    download_modules: { status:'stop' },
-  }
-  
-
-  function registry_subscribe( msg, respond ) {
-    var seneca = this
-
-    var feed
-
-    if( feed && 'stop' === msg.control ) {
-      state.registry_subscribe.status = 'stop'
-      feed.stop()
-    }
-
-    process_control( 
-      msg, respond, seneca, 'registry_subscribe', 
-      function( msg, respond, result ){
-        
-        state.registry_subscribe.status = 'run'
-        state.registry_subscribe.count = 0
-        state.registry_subscribe.since = new Date().toISOString()
-
-        feed = new follow.Feed({
-          db: options.registry,
-          since: 'now',
-        })
-
-        feed.on('error',function(error) {
-          result(error)
-        })
-
-        feed.on('change',function(change) {
-          state.registry_subscribe.count++
-          state.registry_subscribe.last = new Date().toISOString()
-          seneca.act('role:npm,info:change',{name:change.id})
-        })
-
-        feed.follow()
-      })  
-  }
-
-
-  function process_modules( msg, respond ) {
-    var seneca = this
-
-    process_control( 
-      msg, respond, seneca, 'process_modules', 
-      function( msg, respond, result ){
-        
-        state.process_modules.status = 'run'
-        state.process_modules.done = 0
-        state.process_modules.total = 0
-
-        seneca.make('mod').list$({done:false},function(err,list){
-          if(err) return result(err)
-          if( 'run' != state.process_modules.status ) return;
-
-          state.process_modules.total = list.length
-
-          async.eachLimit( list, options.batchsize, function(mod,done) {
-            if( 'run' != state.process_modules.status ) return;
-
-            var name = mod.id
-            seneca.act('role:npm,info:change',{name:name})
-
-            seneca.make('mod',{id$:name}).load$(function(err,mod){
-              if( err ) return result(err)
-
-              mod = mod || seneca.make('mod',{id$:name})
-              mod.done = true
-
-              mod.save$( function( err, mod ){
-                if( err ) return result(err)
-
-                state.process_modules.done++
-
-                done()
-              })
-            })
-          },result)
-        })
-      })
-  }
-
-
-  function download_modules( msg, respond ) {
-    var seneca = this
-    
-    process_control( 
-      msg, respond, seneca, 'download_modules', 
-      function( msg, respond, result ){
-
-        state.download_modules.status = 'run'
-        state.download_modules.done = 0
-        state.download_modules.total = 0
-
-        var stats = npm_stats()
-        stats.list({}, function(err,list){
-          if(err) return result(err)
-          if( 'run' != state.download_modules.status ) return;
-
-          state.download_modules.total = list.length
-
-          async.eachLimit( list, options.batchsize, function(name,done) {
-            if( 'run' != state.download_modules.status ) return;
-
-            seneca.make('mod',{id$:name,done:false}).save$(function(err,mod){
-              if( err ) return done(err)
-              state.download_modules.done++
-              done()
-            })
-          },result)
-        })
-      })
-  }
-
-
-  function process_control( msg, respond, seneca, process_name, worker ) {
-
-    function result(err) {
-      if( err ) {
-        state[process_name].status = 'stop'
-        seneca.log(err)
-        state[process_name].status = 'error'
-        state[process_name].error = err
-      }
-      else {
-        state[process_name].status = 'stop'
-      }
-    }
-
-
-    if( 'stop' === msg.control ) {
-      state[process_name].status = 'stop'
-    }
-
-    else if( 'status' === msg.get || 
-             'run' === state[process_name].status ) 
-    {
-      // do nothing
-    }
-
-    else if( worker( msg, respond, result ) ) {
-      // already responded
-    }
-
-    return respond( null, state[process_name] )
-  }
-
-
-  seneca.add({init:'npm_update'}, function(args,done){
-    var seneca  = this
-
-    if( options.task ) {
-      seneca.root.act({role:'npm',task:options.task})
-    }
-
-    done()
+  var feed = new Follow.Feed({
+    db: opts.registry,
+    since: 'now'
   })
 
+  feed.on('start', onFeedStart)
+  feed.on('stop', onFeedStop)
+  feed.on('error', (err) => {
+    seneca.log.error(err)
+    feed.stop()
+  })
+
+  feed.on('change', (pkg) => {
+    seneca.act('role:updater,info:update', {name: pkg.id})
+  })
+
+  seneca.add('role:npm,cmd:registrySubscribe', startFeed)
+  seneca.add('role:npm,cmd:registryUnsubscribe', stopFeed)
+  seneca.add('role:npm,cmd:registryDownload', downloadRegistry)
+
+  function downloadRegistry (msg, respond) {
+    var RegistryStream = NpmStats().list()
+
+    var limit = options.updaterLimit || 0
+    var counter = 0
+
+    RegistryStream
+      .pipe(JSONStream.parse('*'))
+      .on('data', (pkgId) => {
+        if (limit && counter >= limit) return
+        seneca.act('role:updater,info:update', {name: pkgId})
+        counter++
+      })
+    respond(null, {
+      message: 'downloading'
+    })
+  }
+
+  function startFeed (msg, respond) {
+    if (feedRunning) return respond(null, {message: 'already running'})
+
+    feed.start()
+    respond(null, {
+      message: 'started'
+    })
+  }
+
+  function stopFeed (msg, respond) {
+    if (!feedRunning) return respond(null, {message: 'already stopped'})
+
+    feed.stop()
+    respond(null, {
+      message: 'stopped'
+    })
+  }
+
+  function onFeedStart () {
+    feedRunning = true
+  }
+
+  function onFeedStop () {
+    feedRunning = false
+  }
 }

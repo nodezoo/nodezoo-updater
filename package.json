@@ -8,17 +8,25 @@
     "Isaac Mahon (github.com/CodeWriterWriter)"
   ],
   "license": "MIT",
-  "scripts":{
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nodezoo/nodezoo-npm-update"
+  },
+  "scripts": {
     "start": "node srv/update-dev.js ",
-    "start:dev": "node srv/update-dev.js "
+    "start:dev": "node srv/update-dev.js ",
+    "registrySubscribe": "curl -d '{\"role\":\"npm\", \"cmd\":\"registrySubscribe\"}' localhost:44005/act",
+    "registryUnsubscribe": "curl -d '{\"role\":\"npm\", \"cmd\":\"registryUnsubscribe\"}' localhost:44005/act",
+    "registryDownload": "curl -d '{\"role\":\"npm\", \"cmd\":\"registryDownload\"}' localhost:44005/act"
   },
   "dependencies": {
-    "async": "^1.4.2",
-    "follow": "^0.12.1",
-    "npm-stats": "^1.1.0",
-    "seneca": "^0.7.1",
-    "seneca-beanstalk-transport": "^0.2.1",
-    "seneca-level-store": "^0.2.3",
-    "seneca-msgstats": "^0.2.0"
+    "JSONStream": "1.1.1",
+    "follow": "0.12.1",
+    "npm-stats": "1.2.0",
+    "seneca": "2.0.1",
+    "seneca-balance-client": "0.4.0",
+    "seneca-entity": "0.0.1",
+    "seneca-mesh": "0.7.0",
+    "seneca-redis-queue-transport": "0.3.0"
   }
 }

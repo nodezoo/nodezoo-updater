@@ -1,18 +1,35 @@
+var Seneca = require('seneca')
+var Entities = require('seneca-entity')
+var RedisQ = require('seneca-redis-queue-transport')
 
-var BEANSTALK = process.env.BEANSTALK || 'localhost'
-var STATS = process.env.STATS || 'localhost'
+var envs = process.env
 
-require('seneca')()
-  .use('level-store')
-  .use('beanstalk-transport')
-  .use('msgstats',{
-    udp: { host: STATS },
-    pin:'role:npm,info:change'
-  })
-  .use('../npm-update.js')
+var opts = {
+  redisStore: {
+    host: 'localhost',
+    port: 6379
+  },
+  redisQ: {
+    'redis-queue': {
+      timeout: 22222,
+      type: 'redis-queue',
+      host: 'localhost',
+      port: 6379
+    }
+  },
+  mesh: {
+    auto: true
+  },
+  updater: {
+    updaterLimit: envs.UPDATER_LIMIT
+  }
+}
 
-  .client({ host:BEANSTALK, pin:'role:npm,info:change',type:'beanstalk' })
+var Service = Seneca()
 
+Service
+  .use(Entities)
+  .use(RedisQ, opts.redisQ)
+  .use('../npm-update.js', opts.updater)
   .listen(44005)
-  .repl(43005)
-
+  .client({pin: 'role:updater,info:update', type: 'redis-queue'})
