@@ -1,6 +1,7 @@
 var Seneca = require('seneca')
 var Entities = require('seneca-entity')
 var RedisQ = require('seneca-redis-queue-transport')
+var NpmUpdate = require('../lib/npm-update')
 
 var envs = process.env
 
@@ -30,6 +31,6 @@ var Service = Seneca()
 Service
   .use(Entities)
   .use(RedisQ, opts.redisQ)
-  .use('../npm-update.js', opts.updater)
+  .use(NpmUpdate, opts.updater)
   .listen(44005)
   .client({pin: 'role:updater,info:update', type: 'redis-queue'})
