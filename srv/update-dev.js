@@ -2,6 +2,8 @@ var Seneca = require('seneca')
 var Entities = require('seneca-entity')
 var RedisQ = require('seneca-redis-queue-transport')
 
+var envs = process.env
+
 var opts = {
   redisStore: {
     host: 'localhost',
@@ -17,6 +19,9 @@ var opts = {
   },
   mesh: {
     auto: true
+  },
+  updater: {
+    updaterLimit: envs.UPDATER_LIMIT
   }
 }
 
@@ -25,6 +30,6 @@ var Service = Seneca()
 Service
   .use(Entities)
   .use(RedisQ, opts.redisQ)
-  .use('../npm-update.js')
+  .use('../npm-update.js', opts.updater)
   .listen(44005)
   .client({pin: 'role:updater,info:update', type: 'redis-queue'})

@@ -36,10 +36,15 @@ module.exports = function (options) {
   function downloadRegistry (msg, respond) {
     var RegistryStream = NpmStats().list()
 
+    var limit = options.updaterLimit || 0
+    var counter = 0
+
     RegistryStream
       .pipe(JSONStream.parse('*'))
       .on('data', (pkgId) => {
+        if (limit && counter >= limit) return
         seneca.act('role:updater,info:update', {name: pkgId})
+        counter++
       })
     respond(null, {
       message: 'downloading'
