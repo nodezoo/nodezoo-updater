@@ -12,4 +12,4 @@ RUN npm install
 
 COPY . /src
 
-CMD ["node", "-r", "toolbag", "srv/update-dev.js", "--seneca.options.tag=nodezoo-npm-update", "--seneca-log=type:act"]
+CMD ["node", "srv/start.js", "--seneca.options.tag=nodezoo-npm-update", "--seneca-log=type:act"]
