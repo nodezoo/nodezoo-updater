@@ -26,7 +26,6 @@
     "seneca": "2.0.1",
     "seneca-balance-client": "0.4.0",
     "seneca-entity": "0.0.1",
-    "seneca-mesh": "0.7.0",
     "seneca-redis-queue-transport": "0.3.0"
   }
 }
