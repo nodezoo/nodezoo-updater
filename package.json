@@ -13,8 +13,8 @@
     "url": "git+https://github.com/nodezoo/nodezoo-npm-update"
   },
   "scripts": {
-    "start": "node srv/update-dev.js ",
-    "start:dev": "node srv/update-dev.js ",
+    "start": "node srv/start.js ",
+    "start:dev": "node srv/start.js ",
     "registrySubscribe": "curl -d '{\"role\":\"npm\", \"cmd\":\"registrySubscribe\"}' localhost:44005/act",
     "registryUnsubscribe": "curl -d '{\"role\":\"npm\", \"cmd\":\"registryUnsubscribe\"}' localhost:44005/act",
     "registryDownload": "curl -d '{\"role\":\"npm\", \"cmd\":\"registryDownload\"}' localhost:44005/act",
