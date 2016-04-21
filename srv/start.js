@@ -1,7 +1,7 @@
 var Seneca = require('seneca')
 var Entities = require('seneca-entity')
 var RedisQ = require('seneca-redis-queue-transport')
-var NpmUpdate = require('../lib/npm-update')
+var NpmUpdate = require('../lib/updater')
 
 var envs = process.env
 
