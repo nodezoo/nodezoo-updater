@@ -1,8 +1,8 @@
 {
-  "name": "nodezoo-npm-update",
-  "version": "4.0.0",
+  "name": "nodezoo-updater",
+  "version": "1.0.0",
   "description": "nodezoo.com microservice handling npm updates.",
-  "main": "npm-update.js",
+  "main": "srv/start.js",
   "author": "Richard Rodger (http://richardrodger.com)",
   "contributors": [
     "Isaac Mahon (github.com/CodeWriterWriter)"
@@ -10,7 +10,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nodezoo/nodezoo-npm-update"
+    "url": "git+https://github.com/nodezoo/nodezoo-updater"
   },
   "scripts": {
     "start": "node srv/start.js ",
