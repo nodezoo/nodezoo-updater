@@ -109,7 +109,7 @@ describe('Calls "role:npm,cmd:registryDownload without Opts"', () => {
       expect(err).to.not.exist()
       expect(respond).to.exist()
       setImmediate(() => {
-        expect(si.act.callCount).to.equal(3)
+        expect(si.act.callCount).to.equal(2)
         done(err)
       })
     })
