@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "JSONStream": "1.1.1",
-    "fastq": "^1.4.1",
+    "fastq": "1.4.1",
     "follow": "0.12.1",
     "npm-stats": "1.2.0",
     "seneca": "2.0.1",
