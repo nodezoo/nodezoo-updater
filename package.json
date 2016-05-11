@@ -1,6 +1,6 @@
 {
   "name": "nodezoo-updater",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "nodezoo.com microservice handling npm updates.",
   "main": "srv/start.js",
   "author": "Richard Rodger (http://richardrodger.com)",
@@ -26,7 +26,7 @@
     "follow": "0.12.1",
     "npm-stats": "1.2.0",
     "seneca": "2.0.1",
-    "seneca-balance-client": "0.4.0",
+    "seneca-balance-client": "0.5.x",
     "seneca-entity": "0.0.1",
     "seneca-redis-queue-transport": "0.3.0"
   },
