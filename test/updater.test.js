@@ -1,16 +1,19 @@
 'use strict'
 
-var Code = require('code')
-var Lab = require('lab')
-var Seneca = require('seneca')
-var Sinon = require('sinon')
-var Proxy = require('proxyquire')
-var Through2 = require('through2')
+const Code = require('code')
+const Lab = require('lab')
+const Seneca = require('seneca')
+const Sinon = require('sinon')
+const Proxy = require('proxyquire')
+const Through2 = require('through2')
 
-var Emitter = require('events').EventEmitter
-var Inherits = require('util').inherits
+const Emitter = require('events').EventEmitter
+const Inherits = require('util').inherits
 
-var npmStatsObj = {list: function () {}}
+const npmStatsObj = {list: function () {}}
+
+process.env.WORKER_NO = 4
+
 Sinon.stub(npmStatsObj, 'list', function () {
   var stream = Through2()
   setImmediate(() => {
@@ -23,7 +26,7 @@ Sinon.stub(npmStatsObj, 'list', function () {
   return stream
 })
 
-var lastFeed
+let lastFeed
 function Feed () {
   Emitter.call(this)
   this.start = () => {
@@ -109,7 +112,7 @@ describe('Calls "role:npm,cmd:registryDownload without Opts"', () => {
       expect(err).to.not.exist()
       expect(respond).to.exist()
       setImmediate(() => {
-        expect(si.act.callCount).to.equal(2)
+        expect(si.act.callCount).to.equal(3)
         done(err)
       })
     })
