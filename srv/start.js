@@ -21,7 +21,7 @@ var opts = {
   mesh: {
     auto: true,
     host: envs.UPDATER_HOST || '127.0.0.1',
-    bases: [envs.BASE_HOST || '127.0.0.1:39999'],
+    bases: [envs.BASE_HOST || '127.0.0.1:39999']
   },
   updater: {
     updaterLimit: envs.UPDATER_LIMIT
