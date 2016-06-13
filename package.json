@@ -5,7 +5,7 @@
   "main": "srv/start.js",
   "author": "Richard Rodger (http://richardrodger.com)",
   "contributors": [
-    "Isaac Mahon (github.com/CodeWriterWriter)"
+    "Jane Quinn (github.com/CodeWriterWriter)"
   ],
   "license": "MIT",
   "repository": {
@@ -20,6 +20,11 @@
     "lint": "lab -P test -dL",
     "test": "lab -v -P test -L -t 80"
   },
+  "files": [
+    "lib",
+    "srv",
+    "Dockerfile"
+  ],
   "dependencies": {
     "JSONStream": "1.1.1",
     "fastq": "1.4.1",
